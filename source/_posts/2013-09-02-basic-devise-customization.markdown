@@ -6,7 +6,6 @@ comments: true
 categories:
 ---
 
-
 ## Customizing Devise Views
 
 If you need more control over how Devise works in your app, you're going to want to use their view generator as well. Run:
@@ -55,7 +54,9 @@ Here's [an example app](http://github.com/farleyknight/devise_profiles/) that sh
 
 ## Letting Users sign up via Facebook
 
-Blah blah blah..
+
+
+
 
 Here's [an example app](http://github.com/farleyknight/devise_facebook/) that shows how all of this fits together.
 
