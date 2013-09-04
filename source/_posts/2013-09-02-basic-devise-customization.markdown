@@ -49,14 +49,28 @@ class Profile < ActiveRecord::Base
 end
 ```
 
-
 Here's [an example app](http://github.com/farleyknight/devise_profiles/) that shows how all of this fits together:
 
-## Letting Users sign up via Facebook
+## Signing up with Facebook, Twitter, etc
+
+An often requested feature is to allow users to sign up via Facebook, Twitter, or other social network.
+
+You'll need to add a few more gems to do this. You'll need to add to your Gemfile:
+
+```ruby
+gem 'devise' # Should already be in your Gemfile
+gem 'omniauth'
+gem 'omniauth-facebook'
+```
+
+### Devise Facebook fast-track
+
+```ruby
+rails new my_website -m https://raw.github.com/farleyknight/rails_templates/master/devise_facebook.rb
+```
 
 
-
-
+[discuss facebook integration]
 
 Here's [an example app](http://github.com/farleyknight/devise_facebook/) that shows how all of this fits together.
 

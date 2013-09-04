@@ -6,8 +6,6 @@ comments: true
 categories:
 ---
 
-# Lesser Known Rails tools
-
 ## zeus
 
 [zeus](https://github.com/burke/zeus) gives you lightning fast Rails boot times. Starts a master Rails process & spawns new processes for `rails console`, `rails server`, `rails generate`, etc.
@@ -98,31 +96,52 @@ Command failed with status (1): [/home/farleyknight/.rvm/rubies/ruby-1.9.3-...]
 
 The problem is that zeus doesn't change the `ENV['RAILS_GROUP']` for `rake assets:precompile` to work.
 
-The fix is as follows. Run
+The fix is as follows.
+
+First, make sure you have the line in your current environment file:
+
+```ruby
+config.assets.initialize_on_precompile = false
+```
+
+Next run:
 
 ```bash
 zeus init
 ```
 
-It will create `zeus.json` and `custom_plan.rb`.
+It will create `zeus.json` and `custom_plan.rb`. Change your custom plan to match:
 
 ```ruby
 require 'zeus/rails'
+require 'zeus/rails'
 
-class CustomPlan < Zeus::Rails
+# Usage: `zeus assets some:nested:task'
+#
+# translates to
+#
+# `rake assets:some:nested:task`
+#
+# E.g.
+#
+# `zeus assets precompile`
+#
+# instead of `rake assets:precompile`
 
+class AssetsPlan < Zeus::Rails
   def assets_environment
-      Bundler.require(:assets)
-      ENV['RAILS_GROUPS'] = "assets"
+    Bundler.require(:development, :assets)
+    ::Rails.env = ENV['RAILS_ENV'] = "development"
+    ENV['RAILS_GROUPS'] = "assets"
   end
 
-  def assets_run
-      ARGV.first.prepend "assets:"
-      Rake.application.run
+  def assets
+    ARGV.first.prepend "assets:"
+    Rake.application.run
   end
 end
 
-Zeus.plan = CustomPlan.new
+Zeus.plan = AssetsPlan.new
 ```
 
 
@@ -130,17 +149,16 @@ And change `zeus.json` to match:
 
 ```json
 {
-  "command": "ruby -rubygems -r./custom_plan -eZeus.go",
-
+  "command": "ruby -rubygems -r./zeus_assets -eZeus.go",
   "plan": {
     "boot": {
       "default_bundle": {
+        "assets_environment": {
+          "assets": ["a"]
+        },
         "development_environment": {
           "prerake": {
-          "rake": [],
-            "assets_environment":{
-              "assets_run": ["assets"]
-            }
+            "rake": []
           },
           "runner": ["r"],
           "console": ["c"],
@@ -150,7 +168,6 @@ And change `zeus.json` to match:
           "dbconsole": []
         },
         "test_environment": {
-          "cucumber_environment": {"cucumber": []},
           "test_helper": {"test": ["rspec", "testrb"]}
         }
       }

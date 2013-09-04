@@ -21,7 +21,7 @@ With that preface aside, if you feel confident enough for what's ahead, go ahead
 If you're looking to get set up immediately, without delay, run this:
 
 ```bash
-rails new [my_website] -m http://raw.github.com/farleyknight/rails_templates/devise.rb
+rails new my_website -m https://raw.github.com/farleyknight/rails_templates/master/devise.rb
 ```
 
 Finer grained detail is explained below.
@@ -144,16 +144,3 @@ rails g devise:views
 
 This adds a bunch of views under `app/views/devise/`. We can go into more detail under the [Basic Devise Customization](/basic-devise-customization/) guide.
 
-### Signing up with Facebook, Twitter, etc
-
-An often requested feature is to allow users to sign up via Facebook, Twitter, or other social network.
-
-You'll need to add a few more gems to do this. You'll need to add to your Gemfile:
-
-```ruby
-gem 'devise' # Should already be in your Gemfile
-gem 'omniauth'
-gem 'omniauth-facebook'
-```
-
-[discuss facebook integration]
