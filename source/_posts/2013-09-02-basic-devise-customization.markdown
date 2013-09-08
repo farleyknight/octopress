@@ -6,21 +6,6 @@ comments: true
 categories:
 ---
 
-## Customizing Devise Views
-
-If you need more control over how Devise works in your app, you're going to want to use their view generator as well. Run:
-
-```bash
-rails g devise:views
-```
-
-This adds a bunch of views under `app/views/`, such as:
-
-`app/views/devise/registrations/new.html.erb`
-`app/views/devise/registrations/edit.html.erb`
-
-[TODO: Provide some common updates to Devise forms]
-
 
 Sometimes setting up Devise is just the start of your app, and you need more customization to provide a robust user experience. Here's some common Devise customizations that should take you even further along than the [basic Devise guide](/getting-started-with-devise/) I've written before.
 

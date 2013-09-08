@@ -53,7 +53,7 @@ task :generate do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
   puts "## Generating Site with Jekyll"
   system "compass compile --css-dir #{source_dir}/stylesheets"
-  system "jekyll"
+  system "jekyll #{deploy_dir}"
 end
 
 desc "Watch the site and regenerate when it changes"
@@ -248,7 +248,7 @@ desc "deploy public directory to github pages"
 multitask :push do
   puts "## Deploying branch to Github Pages "
   puts "## Pulling any updates from Github Pages "
-  cd "#{deploy_dir}" do 
+  cd "#{deploy_dir}" do
     system "git pull"
   end
   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
@@ -385,10 +385,10 @@ end
 
 def blog_url(user, project)
   url = if File.exists?('source/CNAME')
-    "http://#{IO.read('source/CNAME').strip}"
-  else
-    "http://#{user}.github.io"
-  end
+          "http://#{IO.read('source/CNAME').strip}"
+        else
+          "http://#{user}.github.io"
+        end
   url += "/#{project}" unless project == ''
   url
 end
